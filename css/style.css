@@ -1,0 +1,23 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+
+.navbar-brand
+{
+  font-size: 2rem;
+}
+
+
+.my-section img {
+  height: 300px;
+  object-fit: contain;
+  padding-top:20px;
+}
+
+.cart-img{
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
