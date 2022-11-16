@@ -1,0 +1,46 @@
+#!/bin/bash
+#Script will delete all images in all repositories of your docker hub account which are older than 50 days
+
+set -e
+
+UNAME="raja9658"
+UPASS="Raja@12345"
+ORGANIZATIONNAME="raja9658"
+REPOSITORY="docker-version"
+
+# get token to be able to talk to Docker Hub
+TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'${UNAME}'", "password": "'${UPASS}'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
+
+echo
+echo "Identifying and deleting images which are older than 50 days in ${ORGANIZATIONNAME} docker hub account"
+
+# get tags for repo
+echo
+echo "Looping Through ${REPOSITORY} repository in ${UNAME} account"
+IMAGE_TAGS=$(curl -s -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORGANIZATIONNAME}/${REPOSITORY}/tags/?'page=2000' | jq -r '.results|.[]|.name')
+
+# build a list of images from tags
+for j in ${IMAGE_TAGS}
+do
+    echo
+    # add last_updated_time
+  updated_time=$(curl -s -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORGANIZATIONNAME}/${REPOSITORY}/tags/${j}/?page_size=10000 | jq -r '.last_updated')
+  echo $updated_time
+  datetime=$updated_time
+  timeago='50 days ago'
+
+  dtSec=$(date --date "$datetime" +'%s')
+  taSec=$(date --date "$timeago" +'%s')
+
+  echo "INFO: dtSec=$dtSec, taSec=$taSec"
+
+  if [ $dtSec -lt $taSec ]; then
+    echo "This image ${UNAME}/${REPOSITORY}:${j} is older than 50 days, deleting this image"
+    ## Please uncomment below line to delete docker hub images of docker hub repositories
+     curl -s  -X DELETE  -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORGANIZATIONNAME}/${REPOSITORY}/tags/${j}/
+  else
+    echo "This image ${UNAME}/${REPOSITORY}:${j} is within 50 days time range, keep this image"
+  fi
+done
+
+echo "Script execution ends"
