@@ -3,10 +3,10 @@
 
 set -e
 
-UNAME="raja9658"
-UPASS="Raja@12345"
-ORGANIZATIONNAME="raja9658"
-REPOSITORY="docker-version"
+UNAME=
+UPASS=
+ORGANIZATIONNAME=
+REPOSITORY=
 
 # get token to be able to talk to Docker Hub
 TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'${UNAME}'", "password": "'${UPASS}'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
@@ -37,7 +37,7 @@ do
   if [ $dtSec -lt $taSec ]; then
     echo "This image ${UNAME}/${REPOSITORY}:${j} is older than 50 days, deleting this image"
     ## Please uncomment below line to delete docker hub images of docker hub repositories
-     curl -s  -X DELETE  -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORGANIZATIONNAME}/${REPOSITORY}/tags/${j}/
+     ##curl -s  -X DELETE  -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORGANIZATIONNAME}/${REPOSITORY}/tags/${j}/
   else
     echo "This image ${UNAME}/${REPOSITORY}:${j} is within 50 days time range, keep this image"
   fi
