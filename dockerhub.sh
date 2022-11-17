@@ -12,13 +12,13 @@ TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'$
 echo "Identifying and deleting images first tag in ${ORGANIZATIONNAME} docker hub account"
 
 # get tags for repo
-
+# you can use sed /jq
 IMAGE_TAGS=$(curl -s -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORGANIZATIONNAME}/${REPOSITORY}/tags/ | jq -r '.results|.[]|.name')
 echo $IMAGE_TAGS
 
 FIRST_TAG=$(curl -s -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORGANIZATIONNAME}/${REPOSITORY}/tags/  | jq -r '.results|.[7]|.name')
 echo ${FIRST_TAG}
-##comment out 
+## Please uncomment below line to delete docker hub images of docker hub repositories 
 ##curl -s  -X DELETE  -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORGANIZATIONNAME}/${REPOSITORY}/tags/${LAST_TAG}/
 echo " first push ${FIRST_TAG} is deleted"
 
