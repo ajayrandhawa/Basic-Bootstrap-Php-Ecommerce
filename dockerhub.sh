@@ -20,6 +20,6 @@ FIRST_TAG=$(curl -s -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/r
 echo ${FIRST_TAG}
 ## Please uncomment below line to delete docker hub images of docker hub repositories 
 ##curl -s  -X DELETE  -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORGANIZATIONNAME}/${REPOSITORY}/tags/${FIRST_TAG}/
-echo " first push ${FIRST_TAG} is deleted"
+echo " first push ${FIRST_TAG}  deleted"
 
 echo "Script execution ends"
