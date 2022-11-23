@@ -27,7 +27,7 @@ if [ ${FIRST_TAG} = "null" ]
         echo "first tag is showing null."
         echo "you have to push to dockerhub"
  else
-        echo "deleted  successfully"
+        echo "successfully deleted"
 fi
 
 echo "Script execution end"
