@@ -22,4 +22,4 @@ echo ${FIRST_TAG}
 ##curl -s  -X DELETE  -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORGANIZATIONNAME}/${REPOSITORY}/tags/${FIRST_TAG}/
 echo " first push ${FIRST_TAG}  deleted"
 
-echo "Script execution ends"
+echo "Script execution end"
