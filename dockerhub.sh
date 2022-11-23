@@ -17,9 +17,17 @@ IMAGE_TAGS=$(curl -s -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/
 echo $IMAGE_TAGS
 
 FIRST_TAG=$(curl -s -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORGANIZATIONNAME}/${REPOSITORY}/tags/  | jq -r '.results|.[7]|.name')
-echo ${FIRST_TAG}
+echo "first tag is ${FIRST_TAG}"
 ## Please uncomment below line to delete docker hub images of docker hub repositories 
 ##curl -s  -X DELETE  -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORGANIZATIONNAME}/${REPOSITORY}/tags/${FIRST_TAG}/
-echo " first push ${FIRST_TAG}  deleted"
+echo "$?"
+
+if [ ${FIRST_TAG} = "null" ]
+ then
+        echo "first tag is showing null."
+        echo "you have to push to dockerhub"
+ else
+        echo "deleted  successfully"
+fi
 
 echo "Script execution end"
