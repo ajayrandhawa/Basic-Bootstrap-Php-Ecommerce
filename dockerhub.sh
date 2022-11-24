@@ -12,7 +12,7 @@ TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'$
 echo "Identifying and deleting images first tag in ${ORGANIZATIONNAME} docker hub account"
 
 # get tags for repo
-# you can use sed /jq
+# you can use jq for search name
 IMAGE_TAGS=$(curl -s -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${ORGANIZATIONNAME}/${REPOSITORY}/tags/ | jq -r '.results|.[]|.name')
 echo $IMAGE_TAGS
 
